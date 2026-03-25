@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Resume Screening System</title>
+    <style>
+        body { font-family: sans-serif; background: #111827; color: white; padding: 50px; }
+        .container { background: #1f2937; padding: 30px; border-radius: 10px; max-width: 600px; margin: auto; border: 1px solid #374151; }
+        input { margin: 20px 0; display: block; width: 100%; color: #9ca3af; }
+        button { background: #3b82f6; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
+        #report { margin-top: 20px; padding: 15px; background: #000; display: none; border-left: 4px solid #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Module 3: Resume Analysis</h2>
+        <p>Upload the <strong>.txt</strong> file from your folder:</p>
+        
+        <input type="file" id="fileInput" accept=".txt">
+        <button onclick="analyze()">RUN C-LOGIC ENGINE</button>
+
+        <div id="report">
+            <h3 id="score">Match Score: 0%</h3>
+            <p id="status"></p>
+            <small style="color: #6b7280;">Output saved to virtual EvaluationReport.txt</small>
+        </div>
+    </div>
+
+    <script>
+        function analyze() {
+            const input = document.getElementById('fileInput');
+            if (input.files.length === 0) return alert("Select a file!");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result.toLowerCase();
+                let score = 0;
+
+                // MODULE 2 LOGIC: Keyword Matching
+                if (text.includes("c programming")) score += 40;
+                if (text.includes("python")) score += 30;
+                if (text.includes("data structures")) score += 30;
+
+                document.getElementById('report').style.display = "block";
+                document.getElementById('score').innerText = "Final Score: " + score + "%";
+                document.getElementById('status').innerText = score >= 50 ? "STATUS: SELECTED" : "STATUS: REJECTED";
+            };
+            reader.readAsText(input.files[0]);
+        }
+    </script>
+</body>
+</html>
